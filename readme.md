@@ -25,4 +25,4 @@ For use all of this methods you must first register extensions in NH config:
 	HierarchyIdExtensions.RegisterTypes(NHibernateConfigInstance)
 
 
-_For methods usage please see [Samples](master/Samples) folder_
+_For methods usage please see **Samples** folder_
