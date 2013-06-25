@@ -9,6 +9,7 @@ namespace NHibernate.HierarchyId
     {
         public static void RegisterTypes(Configuration cfg)
         {
+            #region Criterion/QueryOver api
             // This is only awailable way to register Criteria/QueryOver extensions
             ExpressionProcessor.RegisterCustomProjection(() => default(string).CastAsString(), ProjectionsExtensionsHierarchy.CastAsString);
             ExpressionProcessor.RegisterCustomProjection(() => default(string).SqlToString(), ProjectionsExtensionsHierarchy.SqlToString);
@@ -20,8 +21,9 @@ namespace NHibernate.HierarchyId
             ExpressionProcessor.RegisterCustomProjection(() => default(string).ToHierarchyId(), ProjectionsExtensionsHierarchy.ToHierarchyId);                        
 
             ExpressionProcessor.RegisterCustomMethodCall(() => default(string).IsDescendantOf(default(string)), RestrictionsExtensionsHierarchy.IsDescendantOf);
+            #endregion
 
-
+            #region HQL
             // hid.ToString()
             cfg.SqlFunctions.Add("to_string", new SQLFunctionTemplate(NHibernateUtil.String, "?1.ToString()"));            
 
@@ -41,10 +43,10 @@ namespace NHibernate.HierarchyId
             cfg.SqlFunctions.Add("hid_GetReparentedValue", new SQLFunctionTemplate(NHibernateUtil.String, "?1.GetReparentedValue(?2, ?3)"));            
 
             // hierarchyid::Parse
-            cfg.SqlFunctions.Add("hid_Parse", new SQLFunctionTemplate(NHibernateUtil.String, "hierarchyid::Parse(?1)"));            
+            cfg.SqlFunctions.Add("hid_Parse", new SQLFunctionTemplate(NHibernateUtil.String, "hierarchyid::Parse(?1)"));
+            #endregion
 
-
-            cfg.LinqToHqlGeneratorsRegistry<HierarchyHqlGeneratorRegistry>();
+            cfg.LinqToHqlGeneratorsRegistry<HierarchyHqlGeneratorRegistry>();            
         }        
     }
 }

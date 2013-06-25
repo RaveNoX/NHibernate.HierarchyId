@@ -36,7 +36,7 @@ namespace NHibernate.HierarchyId
         {
             throw new InvalidOperationException("Not to be used directly - use inside QueryOver or NH Linq expression");
         }
-       
+
         public static IProjection GetDescendant(MethodCallExpression methodCallExpression)
         {
             var ishift = 0;
@@ -52,8 +52,8 @@ namespace NHibernate.HierarchyId
                 ishift = -1;
             }
 
-            var child1 = ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 1]).ToString();
-            var child2 = ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 2]).ToString();
+            var child1 = (string)ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 1]);
+            var child2 = (string)ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 2]);
             return new GetDescendantProjection(property, child1, child2);
         }
 
@@ -77,8 +77,8 @@ namespace NHibernate.HierarchyId
                 ishift = -1;
             }
 
-            var oldRoot = ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 1]).ToString();
-            var newRoot = ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 2]).ToString();
+            var oldRoot = (string)ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 1]);
+            var newRoot = (string)ExpressionProcessor.FindValue(methodCallExpression.Arguments[ishift + 2]);
             return new GetReparentedValueProjection(property, oldRoot, newRoot);
         }
 
