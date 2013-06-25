@@ -10,9 +10,9 @@ Adds support for MS SQL [HierarchyId](http://msdn.microsoft.com/library/bb677290
 * [GetRoot](http://msdn.microsoft.com/library/bb677194.aspx) - not implemented
 * [IsDescendantOf](http://msdn.microsoft.com/library/bb677203.aspx) - (HQL / Linq / QueryOver)
 * [Parse](http://msdn.microsoft.com/library/bb677201.aspx) - (HQL / Linq / QueryOver)
-* [Read](http://msdn.microsoft.com/library/bb677205.aspx) - not implemented
 * [GetReparentedValue](http://msdn.microsoft.com/library/bb677207.aspx) - (HQL / Linq / QueryOver)
 * [ToString](http://msdn.microsoft.com/library/bb677195.aspx) - (HQL / Linq / QueryOver)
+* [Read](http://msdn.microsoft.com/library/bb677205.aspx) - not implemented
 * [Write](http://msdn.microsoft.com/library/bb677196.aspx) - not implemented
 
 
