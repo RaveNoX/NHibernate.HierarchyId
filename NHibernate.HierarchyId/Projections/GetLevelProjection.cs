@@ -34,7 +34,7 @@ namespace NHibernate.HierarchyId.Projections
 
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            return new IType[] { NHibernateUtil.Int16 };
+            return new IType[] { NHibernateUtil.Int32 };
         }
 
         public override bool IsGrouped

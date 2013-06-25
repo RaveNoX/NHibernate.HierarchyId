@@ -5,7 +5,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.HierarchyId;
 
-namespace Samples
+namespace Tests
 {
     public class NHibernateConfig
     {
@@ -16,16 +16,14 @@ namespace Samples
         {
             _config = Fluently.Configure()
                         .Database(
-                            MsSqlConfiguration.MsSql2008.ConnectionString(connectionString)
-                                .ShowSql()
-                                .FormatSql()                                
+                            MsSqlConfiguration.MsSql2008.ConnectionString(connectionString)                                
                         )                        
                         .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(NHibernateConfig).Assembly))                        
                         .Diagnostics(d => d.OutputToConsole().Enable())                        
                         .BuildConfiguration();                        
 
             // register HierarchyId extensions for NH
-            HierarchyIdExtensions.RegisterTypes(_config);
+            HierarchyIdExtensions.RegisterHierarchySupport(_config);
 
             _sessionFactory = _config.BuildSessionFactory();
         }

@@ -7,21 +7,22 @@ namespace NHibernate.HierarchyId
 {
     public static class HierarchyIdExtensions
     {
-        public static void RegisterTypes(Configuration cfg)
+        private static bool _criterionRegistered;
+        private static readonly object LockObject = new object();
+
+        public static void RegisterHierarchySupport(Configuration cfg)
         {
-            #region Criterion/QueryOver api
-            // This is only awailable way to register Criteria/QueryOver extensions
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).CastAsString(), ProjectionsExtensionsHierarchy.CastAsString);
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).SqlToString(), ProjectionsExtensionsHierarchy.SqlToString);
-
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetAncestor(0), ProjectionsExtensionsHierarchy.GetAncestor);
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetDescendant(null, null), ProjectionsExtensionsHierarchy.GetDescendant);
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetReparentedValue(null, null), ProjectionsExtensionsHierarchy.GetReparentedValue);
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetLevel(), ProjectionsExtensionsHierarchy.GetLevel);
-            ExpressionProcessor.RegisterCustomProjection(() => default(string).ToHierarchyId(), ProjectionsExtensionsHierarchy.ToHierarchyId);                        
-
-            ExpressionProcessor.RegisterCustomMethodCall(() => default(string).IsDescendantOf(default(string)), RestrictionsExtensionsHierarchy.IsDescendantOf);
-            #endregion
+            if (!_criterionRegistered)
+            {
+                lock (LockObject)
+                {
+                    if (!_criterionRegistered)
+                    {
+                        RegisterCriterionSupport();
+                        _criterionRegistered = true;
+                    }
+                }
+            }
 
             #region HQL
             // hid.ToString()
@@ -37,7 +38,7 @@ namespace NHibernate.HierarchyId
             cfg.SqlFunctions.Add("hid_GetDescendant", new SQLFunctionTemplate(NHibernateUtil.String, "?1.GetDescendant(?2, ?3)"));
 
             // hid.GetLevel()
-            cfg.SqlFunctions.Add("hid_GetLevel", new SQLFunctionTemplate(NHibernateUtil.Int16, "?1.GetLevel()"));
+            cfg.SqlFunctions.Add("hid_GetLevel", new SQLFunctionTemplate(NHibernateUtil.Int32, "?1.GetLevel()"));
 
             // hid.GetReparentedValue(old, new)
             cfg.SqlFunctions.Add("hid_GetReparentedValue", new SQLFunctionTemplate(NHibernateUtil.String, "?1.GetReparentedValue(?2, ?3)"));            
@@ -48,5 +49,20 @@ namespace NHibernate.HierarchyId
 
             cfg.LinqToHqlGeneratorsRegistry<HierarchyHqlGeneratorRegistry>();            
         }        
+
+        private static void RegisterCriterionSupport()
+        {
+            // This is only awailable way to register Criteria/QueryOver extensions
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).CastAsString(), ProjectionsExtensionsHierarchy.CastAsString);
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).SqlToString(), ProjectionsExtensionsHierarchy.SqlToString);
+
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetAncestor(0), ProjectionsExtensionsHierarchy.GetAncestor);
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetDescendant(null, null), ProjectionsExtensionsHierarchy.GetDescendant);
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetReparentedValue(null, null), ProjectionsExtensionsHierarchy.GetReparentedValue);
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).GetLevel(), ProjectionsExtensionsHierarchy.GetLevel);
+            ExpressionProcessor.RegisterCustomProjection(() => default(string).ToHierarchyId(), ProjectionsExtensionsHierarchy.ToHierarchyId);
+
+            ExpressionProcessor.RegisterCustomMethodCall(() => default(string).IsDescendantOf(default(string)), RestrictionsExtensionsHierarchy.IsDescendantOf);
+        }
     }
 }
