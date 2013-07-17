@@ -32,3 +32,4 @@ _ReSharper*/
 
 # Ignore NuGet packages
 /packages
+/.nuget/nuget.exe
