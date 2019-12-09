@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
-using NHibernate.Util;
 
 namespace NHibernate.HierarchyId.Projections
 {
@@ -19,23 +17,32 @@ namespace NHibernate.HierarchyId.Projections
             _level = level;            
         }
 
-        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+       
+        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
             var loc = position * GetHashCode();
-            var val = _projection.ToSqlString(criteria, loc, criteriaQuery, enabledFilters);
-            val = StringHelper.RemoveAsAliasesFromSql(val);
+            var val = _projection.ToSqlString(criteria, loc, criteriaQuery);
+            val = RemoveAsAliasesFromSql(val);
 
             var lhs = new SqlStringBuilder();
 
             lhs.Add(val);
             lhs.Add(".GetAncestor(");
-            lhs.Add(criteriaQuery.NewQueryParameter(new TypedValue(NHibernateUtil.Int32, _level, EntityMode.Poco)).Single());
+            lhs.Add(criteriaQuery.NewQueryParameter(new TypedValue(NHibernateUtil.Int32, _level,false)).Single());
             lhs.Add(") as ");
             lhs.Add(GetColumnAliases(position)[0]);
 
-            var ret =  lhs.ToSqlString();
+            var ret = lhs.ToSqlString();
 
             return ret;
+        }
+        public static SqlString RemoveAsAliasesFromSql(SqlString sql)
+        {
+            return sql.Substring(0, sql.LastIndexOfCaseInsensitive(" as "));
+        }
+        public override SqlString ToGroupSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            return _projection.ToGroupSqlString(criteria, criteriaQuery);
         }
 
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
@@ -53,9 +60,5 @@ namespace NHibernate.HierarchyId.Projections
             get { return false; }
         }
 
-        public override SqlString ToGroupSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
-        {
-            return _projection.ToGroupSqlString(criteria, criteriaQuery, enabledFilters);
-        }
     }
 }

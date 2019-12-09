@@ -1,7 +1,6 @@
 ﻿#region Usings
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Criterion;
 using NHibernate.Engine;
@@ -24,21 +23,21 @@ namespace NHibernate.HierarchyId.Criterion
             _propertyName = propertyName;
             _projection = NHibernate.Criterion.Projections.Property(_propertyName);
             _value = value;
-            _typedValue = new TypedValue(NHibernateUtil.String, _value, EntityMode.Poco);
+            _typedValue = new TypedValue(NHibernateUtil.String, _value, false);
         }
 
         public IsDescendantOfExpression(IProjection projection, string value)
         {
             _projection = projection;
             _value = value;
-            _typedValue = new TypedValue(NHibernateUtil.String, _value, EntityMode.Poco);
+            _typedValue = new TypedValue(NHibernateUtil.String, _value, false);
         }
 
-        public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery,
-                                              IDictionary<string, IFilter> enabledFilters)
+       
+
+        public override SqlString ToSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
         {
-            var columns = CriterionUtil.GetColumnNames(_propertyName, _projection, criteriaQuery, criteria,
-                                                       enabledFilters);
+            var columns = CriterionUtil.GetColumnNames(_propertyName, _projection, criteriaQuery, criteria);
             if (columns.Length != 1)
                 throw new HibernateException(
                     "IsDescendantOf may only be used with single-column properties / projections.");

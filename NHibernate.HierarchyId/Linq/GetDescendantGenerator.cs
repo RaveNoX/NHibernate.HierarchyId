@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using NHibernate.Hql.Ast;
-using NHibernate.Linq;
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
 
@@ -14,7 +13,7 @@ namespace NHibernate.HierarchyId.Linq
         {
             SupportedMethods = new[]
             {
-                ReflectionHelper.GetMethodDefinition(()=> default(string).GetDescendant(default(string), default(string)))
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(()=> default(string).GetDescendant(default(string), default(string)))
             };
         }
 
