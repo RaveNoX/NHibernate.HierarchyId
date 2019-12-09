@@ -5,37 +5,37 @@ using NHibernate.Linq.Functions;
 
 #endregion
 
-namespace NHibernate.HierarchyId.Linq
+namespace HierarchyId2.Linq
 {
     public sealed class HierarchyHqlGeneratorRegistry : DefaultLinqToHqlGeneratorsRegistry
     {
         public HierarchyHqlGeneratorRegistry()
         {
-            RegisterGenerator(ReflectionHelper.GetMethodDefinition(() => default(string).SqlToString()),
+            RegisterGenerator(NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).SqlToString()),
                               new ToStringGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).IsDescendantOf(default(string))),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).IsDescendantOf(default(string))),
                 new IsDescendantOfGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).GetAncestor(default(int))),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).GetAncestor(default(int))),
                 new GetAncestorGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).GetDescendant(null,null)),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).GetDescendant(null,null)),
                 new GetDescendantGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).GetLevel()),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).GetLevel()),
                 new GetLevelGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).GetReparentedValue(null,null)),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).GetReparentedValue(null,null)),
                 new GetReparentedValueGenerator());
 
             RegisterGenerator(
-                ReflectionHelper.GetMethodDefinition(() => default(string).ToHierarchyId()),
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).ToHierarchyId()),
                 new HidParseGenerator());           
         }
     }

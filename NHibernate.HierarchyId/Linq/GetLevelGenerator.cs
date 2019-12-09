@@ -10,7 +10,7 @@ using NHibernate.Linq.Visitors;
 
 #endregion
 
-namespace NHibernate.HierarchyId.Linq
+namespace HierarchyId2.Linq
 {
     public class GetLevelGenerator : BaseHqlGeneratorForMethod
     {
@@ -18,7 +18,7 @@ namespace NHibernate.HierarchyId.Linq
         {
             SupportedMethods = new[]
                 {
-                    ReflectionHelper.GetMethodDefinition(() => default(string).GetLevel())
+                    NHibernate.Util.ReflectHelper.GetMethodDefinition(() => default(string).GetLevel())
                 };
         }
 

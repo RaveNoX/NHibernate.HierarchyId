@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
 using NHibernate.Util;
 
-namespace NHibernate.HierarchyId.Projections
+namespace HierarchyId2.Projections
 {
     public class ToHierarchyIdProjection : SimpleProjection
     {
@@ -16,11 +17,11 @@ namespace NHibernate.HierarchyId.Projections
             _projection = projection;
         }
 
-        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
+        public override SqlString ToSqlString(ICriteria criteria, int position, ICriteriaQuery criteriaQuery)
         {
             var loc = position * GetHashCode();
-            var val = _projection.ToSqlString(criteria, loc, criteriaQuery, enabledFilters);
-            val = StringHelper.RemoveAsAliasesFromSql(val);
+            var val = _projection.ToSqlString(criteria, loc, criteriaQuery);
+            val = GetAncestorProjection.RemoveAsAliasesFromSql(val);
 
             var ret = new SqlStringBuilder()
                 .Add("hierarchyid::Parse( ")
@@ -31,6 +32,11 @@ namespace NHibernate.HierarchyId.Projections
                 .ToSqlString();
 
             return ret;
+        }
+
+        public override SqlString ToGroupSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery)
+        {
+            return _projection.ToGroupSqlString(criteria, criteriaQuery);
         }
 
         public override IType[] GetTypes(ICriteria criteria, ICriteriaQuery criteriaQuery)
@@ -46,11 +52,6 @@ namespace NHibernate.HierarchyId.Projections
         public override bool IsAggregate
         {
             get { return false; }
-        }
-
-        public override SqlString ToGroupSqlString(ICriteria criteria, ICriteriaQuery criteriaQuery, IDictionary<string, IFilter> enabledFilters)
-        {
-            return _projection.ToGroupSqlString(criteria, criteriaQuery, enabledFilters);
         }
     }
 }

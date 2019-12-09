@@ -1,9 +1,10 @@
-﻿using NHibernate.Cfg;
+﻿using HierarchyId2.Linq;
+using NHibernate;
+using NHibernate.Cfg;
 using NHibernate.Dialect.Function;
-using NHibernate.HierarchyId.Linq;
 using NHibernate.Impl;
 
-namespace NHibernate.HierarchyId
+namespace HierarchyId2
 {
     public static class HierarchyIdExtensions
     {

@@ -6,7 +6,7 @@ using NHibernate.Linq;
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
 
-namespace NHibernate.HierarchyId.Linq
+namespace HierarchyId2.Linq
 {
     public class GetReparentedValueGenerator : BaseHqlGeneratorForMethod
     {
@@ -14,7 +14,7 @@ namespace NHibernate.HierarchyId.Linq
         {
             SupportedMethods = new[]
             {
-                ReflectionHelper.GetMethodDefinition(()=> default(string).GetReparentedValue(default(string), default(string)))
+                NHibernate.Util.ReflectHelper.GetMethodDefinition(()=> default(string).GetReparentedValue(default(string), default(string)))
             };
         }
 
