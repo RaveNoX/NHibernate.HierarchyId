@@ -1,11 +1,10 @@
 ﻿#region Usings
 
-using NHibernate.Linq;
 using NHibernate.Linq.Functions;
 
 #endregion
 
-namespace HierarchyId2.Linq
+namespace NHibernate.HierarchyId.Linq
 {
     public sealed class HierarchyHqlGeneratorRegistry : DefaultLinqToHqlGeneratorsRegistry
     {

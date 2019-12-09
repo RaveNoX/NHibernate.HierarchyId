@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
-using HierarchyId2.Criterion;
 using NHibernate.Criterion;
+using NHibernate.HierarchyId.Criterion;
 using NHibernate.Impl;
 
-namespace HierarchyId2
+namespace NHibernate.HierarchyId
 {
     public static class RestrictionsExtensionsHierarchy
     {

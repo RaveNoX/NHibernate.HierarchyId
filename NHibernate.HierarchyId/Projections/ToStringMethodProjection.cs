@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using NHibernate;
-using NHibernate.Criterion;
+﻿using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
-using NHibernate.Util;
 
-namespace HierarchyId2.Projections
+namespace NHibernate.HierarchyId.Projections
 {
     public class ToStringMethodProjection : SimpleProjection
     {

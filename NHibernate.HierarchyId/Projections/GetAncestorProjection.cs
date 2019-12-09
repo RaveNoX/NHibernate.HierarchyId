@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using System.Linq;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.SqlCommand;
 using NHibernate.Type;
 
-namespace HierarchyId2.Projections
+namespace NHibernate.HierarchyId.Projections
 {
     public class GetAncestorProjection : SimpleProjection
     {

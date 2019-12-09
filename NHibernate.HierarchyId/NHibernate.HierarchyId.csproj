@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>NHibernate.HierarchyId</AssemblyName>
+    <RootNamespace>NHibernate.HierarchyId</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

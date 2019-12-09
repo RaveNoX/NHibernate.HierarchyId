@@ -1,16 +1,14 @@
 ﻿#region Usings
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Engine;
 using NHibernate.SqlCommand;
 
 #endregion
 
-namespace HierarchyId2.Criterion
+namespace NHibernate.HierarchyId.Criterion
 {
     [Serializable]
     public class IsDescendantOfExpression : AbstractCriterion

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
-using HierarchyId2.Projections;
-using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.HierarchyId.Projections;
 using NHibernate.Impl;
 
-namespace HierarchyId2
+namespace NHibernate.HierarchyId
 {
     public static class ProjectionsExtensionsHierarchy
     {
